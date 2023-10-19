@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "thighhigh",
+  "version": "${version}",
+  "name": "Thigh Highs",
+  "description": "",
+  "authors": [],
+  "contact": {
+    "repo": "https://github.com/gammaposselt/Thigh Highs"
+  },
+  "license": "MIT",
+  "icon": "assets/thighhigh/icon.png",
+  "accessWidener": "thighhighs.accesswidener",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "net.gamma02.thighhigh.client.ThighHighsClient"
+    ],
+    "main": [
+      "net.gamma02.thighhigh.ThighHighs"
+    ]
+  },
+  "mixins": [
+    "thighhigh.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
