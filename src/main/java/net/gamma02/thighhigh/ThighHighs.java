@@ -75,45 +75,49 @@ public class ThighHighs implements ModInitializer {
 
     public static Gson gson = new GsonBuilder().registerTypeAdapter(SockItemType.class, SockItemDesearlizer.INSTANCE).create();
 
+    public static SimpleSynchronousResourceReloadListener SEVER_DATA_RELOAD = new SimpleSynchronousResourceReloadListener() {
+        @Override
+        public Identifier getFabricId() {
+            return resource("server_data");
+        }
+
+        @Override
+        public void reload(ResourceManager manager) {
+            System.out.println("Reloading on server!");
+
+            try{
+                Registries.ITEM.createEntry(TEST_SOCK);
+            }catch (IllegalStateException e){
+                System.out.println("REGISTRY FROZEN!");
+                return;
+            }
+
+
+            for(Identifier id : manager.findResources(socksDirectory, (id) -> id.getPath().endsWith(".json")).keySet()) {
+                try(InputStream stream = manager.getResource(id).get().getInputStream()) {
+                    // Consume the stream however you want, medium, rare, or well done.
+                    var item = gson.fromJson(new InputStreamReader(stream), SockItemType.class);
+
+                    System.out.println("Registering socks: " + item.name);
+
+                    SockItemsToRegister.add(item);
+                } catch(Exception e) {
+                    System.out.println("Error occurred while loading resource json " + id.toString() + e.getMessage());
+                }
+
+            }
+        }
+    };
+
 
 
     public ThighHighs(){
+        registerAddTags(TEST_SOCK, Registries.ITEM, resource("test_socks"), socks);
 
 
 
-        ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new SimpleSynchronousResourceReloadListener() {
-            @Override
-            public Identifier getFabricId() {
-                return resource("server_data");
-            }
 
-            @Override
-            public void reload(ResourceManager manager) {
-                System.out.println("Reloading on server!");
-
-                try{
-                    Registries.ITEM.createEntry(TEST_SOCK);
-                }catch (IllegalStateException e){
-                    System.out.println("REGISTRY FROZEN!");
-                    return;
-                }
-
-
-                for(Identifier id : manager.findResources(socksDirectory, (id) -> id.getPath().endsWith(".json")).keySet()) {
-                    try(InputStream stream = manager.getResource(id).get().getInputStream()) {
-                        // Consume the stream however you want, medium, rare, or well done.
-                        var item = gson.fromJson(new InputStreamReader(stream), SockItemType.class);
-
-                        System.out.println("Registering socks: " + item.name);
-
-                        SockItemsToRegister.add(item);
-                    } catch(Exception e) {
-                        System.out.println("Error occurred while loading resource json " + id.toString() + e.getMessage());
-                    }
-
-                }
-            }
-        });
+        ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(SEVER_DATA_RELOAD);
 
 
 
@@ -148,7 +152,6 @@ public class ThighHighs implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        registerAddTags(TEST_SOCK, Registries.ITEM, resource("test_socks"), socks);
 //        System.out.println("Doing stuff!");
 
         //socks directory:
