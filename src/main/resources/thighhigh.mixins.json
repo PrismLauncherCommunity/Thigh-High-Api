@@ -4,9 +4,10 @@
   "package": "net.gamma02.thighhigh.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "FreezeRegistryMixin"
+    "ItemsMixin"
   ],
   "client": [
+    "ArmorFeatureRendererMixin",
     "PlayerEntityRendererMixin"
   ],
   "injectors": {

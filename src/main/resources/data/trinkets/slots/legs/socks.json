@@ -1,5 +1,5 @@
 {
   "icon": "thighhigh:gui/trinkets/socks_gui",
   "order": -256,
-  "validator_predicates": ["trinkets:tag"]
+  "validator_predicates": ["thighhigh:is_sock"]
 }

@@ -60,6 +60,7 @@ public class ThighHighLayerRenderer <T extends LivingEntity, M extends BipedEnti
 
 //                    this.getContextModel().copyBipedStateTo(this.sockModel);
 //                    sockModel.setAngles(entity, limbAngle, limbDistance, animationProgress, headYaw, headPitch);
+                    matrices.scale(1.01f, 1.01f, 1.01f);
 
                     VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getArmorCutoutNoCull(this.getSockTexture((SockItem) /*this may cause issues*/sockStack.getItem())));
                     sockModel.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1, 1, 1, 1.0F);

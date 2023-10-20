@@ -19,7 +19,7 @@ public class SockItemDesearlizer implements JsonDeserializer<SockItemType> {
 
         String textureName = sockItem.get("texture_name").getAsString();
 
-        String itemName = sockItem.get("item_registry_name").getAsString();
+        String itemName = sockItem.get("name").getAsString();
 
         if(sockItem.has("item_properties")) {
             int maxCount = 1;//don't usually stack tools
