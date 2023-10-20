@@ -1,0 +1,5 @@
+{
+  "icon": "thighhigh:gui/trinkets/socks_gui",
+  "order": -128,
+  "validator_predicates": ["thighhigh:is_sock"]
+}
