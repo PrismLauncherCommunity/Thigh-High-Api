@@ -51,6 +51,8 @@ public class ThighHighs implements ModInitializer {
 
     public static String MODID = modid;
 
+    public static boolean reloadAgain = true;
+
 
 
 
