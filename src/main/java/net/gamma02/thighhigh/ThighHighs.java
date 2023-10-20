@@ -71,7 +71,7 @@ public class ThighHighs implements ModInitializer {
 
     public static HashMap<Identifier, SockItemType> RegisteredSocks = new HashMap<>();
 
-    public static String socksDirectory = "thighhighs/socks";
+
 
 
 
@@ -88,12 +88,11 @@ public class ThighHighs implements ModInitializer {
 
         @Override
         public void reload(ResourceManager manager) {
-            System.out.println("Reloading on server!");
+//            System.out.println("Reloading on server!");
 
             try{
                 Registries.ITEM.createEntry(TEST_SOCK);
             }catch (IllegalStateException e){
-                System.out.println("REGISTRY FROZEN!");
                 return;
             }
 
@@ -106,7 +105,7 @@ public class ThighHighs implements ModInitializer {
                     // Consume the stream however you want, medium, rare, or well done.
                     var item = gson.fromJson(new InputStreamReader(stream), SockItemType.class);
 
-                    System.out.println("Registering socks: " + item.name);
+                    LOGGER.info("Registering socks: " + item.name);
 
                     SockItemsToRegister.push(item);
                 } catch(Exception e) {
@@ -176,10 +175,6 @@ public class ThighHighs implements ModInitializer {
 
         ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(SEVER_DATA_RELOAD);
 
-
-
-        ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(CLIENT_RESOURCE_RELOAD);
-
     }
 
 
@@ -187,37 +182,20 @@ public class ThighHighs implements ModInitializer {
 
     @Override
     public void onInitialize() {
-
-//        System.out.println("Doing stuff!");
-
-        //socks directory:
-
-//        if(!SockItemsToRegister.isEmpty()) {
-
-
-//        ArrayList<Identifier> socksToAddToTag = new ArrayList<>();
-
             //Register socks defined in JSON and add them to the socks trinket tag.
             while (!SockItemsToRegister.isEmpty()) {
                 var sock = SockItemsToRegister.pop();
 
                 Identifier sockId = sock.name;
 
-//                RegisteredSocks.put(sockId, sock);
-
-
-
                 LOGGER.info(sockId.toString());
 
                 SockItemType registered = registerAddTags(sock, Registries.ITEM, sockId, socks);;//SHOULD BE THIS
-//                SockItemsToRegister.pop()
 
                 RegisteredSocks.replace(sockId, registered);
 
                 TrinketsApi.registerTrinket(registered, registered);
-//            socksToAddToTag.add(sockId);
             }
-//        }
 
 
         TrinketsApi.registerTrinket(TEST_SOCK, TEST_SOCK);
@@ -228,12 +206,6 @@ public class ThighHighs implements ModInitializer {
     @SafeVarargs
     public static <A, T extends A> T registerAddTags(T object, Registry<A> registry, Identifier id, TagKey<A>... tags){
         T registryEntry = Registry.register(registry, id.toString(), object);
-//        ArrayList<TagKey<A>> oldTags = new ArrayList<>(registryEntry.streamTags().toList());
-//        oldTags.addAll(Arrays.stream(tags).toList());
-//        registryEntry.setTags(oldTags);
-//        if(object instanceof SockItem i)
-//            socksToAddToTag.add(registry.getEntry(registryEntry));
-
 
         return registryEntry;
     }

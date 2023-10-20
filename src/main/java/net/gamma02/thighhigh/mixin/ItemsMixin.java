@@ -41,7 +41,7 @@ public class ItemsMixin {
             MOD_LOGGER.debug("Reloading before");
             var resourceType = ResourceType.SERVER_DATA;
             //load our data packs
-            Path socksDataDir = Path.of(FabricLoader.getInstance().getConfigDir().toString(), "/thighhigh/socks");
+            Path socksDataDir = Path.of("./resourcepacks");
             FileResourcePackProvider socksDataProvider = new FileResourcePackProvider(socksDataDir, resourceType, ResourcePackSource.SERVER);
 
             //load other mod's data packs
