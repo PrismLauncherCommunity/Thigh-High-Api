@@ -1,6 +1,7 @@
 package net.gamma02.thighhigh.Items;
 
 import com.google.gson.*;
+import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.gamma02.thighhigh.ThighHighs;
 import net.minecraft.item.FoodComponent;
 import net.minecraft.item.Item;
@@ -24,4 +25,13 @@ public class SockItemType extends SockItem {
         this.name = ThighHighs.resource(name);
     }
 
+    public SockItemType(SockItem item, Settings settings, Identifier name){
+        super(settings, item.getTextureName());
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return name.toString();
+    }
 }
