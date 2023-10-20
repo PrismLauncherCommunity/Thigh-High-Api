@@ -5,7 +5,7 @@ import net.minecraft.item.Item;
 
 public class SockItem extends TrinketItem {
 
-    private final String textureName;
+    private String textureName = "socks";
     public SockItem(Settings settings, String textureName) {
         super(settings);
         this.textureName = textureName;
@@ -13,5 +13,10 @@ public class SockItem extends TrinketItem {
 
     public String getTextureName(){
         return this.textureName;
+    }
+
+    @Override
+    public String toString() {
+        return textureName;
     }
 }
