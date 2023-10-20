@@ -104,7 +104,9 @@ public class ThighHighs implements ModInitializer {
                         // Consume the stream however you want, medium, rare, or well done.
                         var item = gson.fromJson(new InputStreamReader(stream), SockItemType.class);
 
-//                        SockItemsToRegister.add(item);
+                        System.out.println("Registering socks: " + item.name);
+
+                        SockItemsToRegister.add(item);
                     } catch(Exception e) {
                         System.out.println("Error occurred while loading resource json " + id.toString() + e.getMessage());
                     }
