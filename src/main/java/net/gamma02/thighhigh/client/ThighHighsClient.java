@@ -18,8 +18,8 @@ public class ThighHighsClient implements ClientModInitializer {
         EntityModelLayerRegistry.registerModelLayer(SOCKS_LAYER_SLIM, () -> slim_socks_data);
     }
 
-    public static TexturedModelData normal_socks_data = sock_layer.createBodyLayer(new Dilation(1.0f));
-    public static TexturedModelData slim_socks_data = sock_layer.createBodyLayer(new Dilation(0.98f));
+    public static TexturedModelData normal_socks_data = sock_layer.getModelData(1.2f);
+    public static TexturedModelData slim_socks_data = sock_layer.getModelData(1.0f);
 
 
 

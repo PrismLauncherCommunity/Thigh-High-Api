@@ -55,10 +55,11 @@ public class ThighHighLayerRenderer <T extends LivingEntity, M extends BipedEnti
                 List<ItemStack> sockStacks = component.getEquipped((stack) -> stack.getItem() instanceof SockItem).stream().map((Pair::getRight)).collect(Collectors.toList());
                 for (ItemStack sockStack:
                      sockStacks) {
-//                    ((sock_layer)this.getContextModel()).copySockStateTo(sockModel);
-                    sockModel.copySockStateFrom(this.getContextModel());
+                    (this.getContextModel()).copyBipedStateTo(sockModel);
+//                    sockModel.copySockStateFrom(this.getContextModel());
+
 //                    this.getContextModel().copyBipedStateTo(this.sockModel);
-                    sockModel.setAngles(entity, limbAngle, limbDistance, animationProgress, headYaw, headPitch);
+//                    sockModel.setAngles(entity, limbAngle, limbDistance, animationProgress, headYaw, headPitch);
 
                     VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getArmorCutoutNoCull(this.getSockTexture((SockItem) /*this may cause issues*/sockStack.getItem())));
                     sockModel.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1, 1, 1, 1.0F);
