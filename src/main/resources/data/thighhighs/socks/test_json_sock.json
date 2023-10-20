@@ -1,5 +1,6 @@
 {
   "texture_name": "socks_test_old",
   "name": "socks_json_test",
-  "item_properties": {"max_count": 1}
+  "item_properties": {"max_count": 1},
+  "info": "This is an example of the format used to add new socks! Replace the names of the item, socks_json_test, with the name of your item, and the texture name with the name of your custom texture, in a resource pack! Note that you will also have to define a separate item model and lang entry, handled in resource packs"
 }
