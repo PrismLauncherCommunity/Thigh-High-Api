@@ -3,6 +3,7 @@ package net.gamma02.thighhigh;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mojang.blaze3d.systems.RenderSystem;
+import dev.emi.trinkets.api.SlotType;
 import dev.emi.trinkets.api.Trinket;
 import dev.emi.trinkets.api.TrinketsApi;
 import net.fabricmc.api.EnvType;
@@ -15,6 +16,7 @@ import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.SimpleResourceReloadListener;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
+import net.fabricmc.fabric.api.util.TriState;
 import net.gamma02.thighhigh.Items.SockItem;
 import net.gamma02.thighhigh.Items.SockItemDesearlizer;
 import net.gamma02.thighhigh.Items.SockItemType;
@@ -27,6 +29,7 @@ import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.TagKey;
+import net.minecraft.resource.Resource;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
@@ -68,7 +71,7 @@ public class ThighHighs implements ModInitializer {
 
     public static HashMap<Identifier, SockItemType> RegisteredSocks = new HashMap<>();
 
-    public static String socksDirectory = "data/thighhighs/socks";
+    public static String socksDirectory = "thighhighs/socks";
 
 
 
@@ -94,26 +97,51 @@ public class ThighHighs implements ModInitializer {
                 return;
             }
 
+//            manager.findResources();
+//            var resources = manager.findResources(modid, (id) -> true);
+//
+//
+//            for(Resource resource : resources.values()) {
+//                try(InputStream stream = resource.getInputStream()) {
+//                    // Consume the stream however you want, medium, rare, or well done.
+//                    var item = gson.fromJson(new InputStreamReader(stream), SockItemType.class);
+//
+//                    System.out.println("Registering socks: " + item.name);
+//
+//                    SockItemsToRegister.add(item);
+//                } catch(Exception e) {
+//                    System.out.println("Error occurred while loading resource json " + resource.toString() + e.getMessage());
+//                }
+//
+//            }
+//            var resource = manager.getResource(resource("socks/test_json_sock.json"));
+//            try(InputStream stream = resource.get().getInputStream()) {
+//                // Consume the stream however you want, medium, rare, or well done.
+//                var item = gson.fromJson(new InputStreamReader(stream), SockItemType.class);
+//
+//                System.out.println("Registering socks: " + item.name);
+//
+//                SockItemsToRegister.add(item);
+//            } catch(Exception e) {
+//                System.out.println("Error occurred while loading resource json " + resource.toString() + e.getMessage());
+//            }
+            var resourcePacks = manager.streamResourcePacks().collect(Collectors.toList());
 
-            for(Identifier id : manager.findResources(socksDirectory, (id) -> id.getPath().endsWith(".json")).keySet()) {
-                try(InputStream stream = manager.getResource(id).get().getInputStream()) {
-                    // Consume the stream however you want, medium, rare, or well done.
-                    var item = gson.fromJson(new InputStreamReader(stream), SockItemType.class);
 
-                    System.out.println("Registering socks: " + item.name);
+            var packWithThighHigh = resourcePacks.get(0);
 
-                    SockItemsToRegister.add(item);
-                } catch(Exception e) {
-                    System.out.println("Error occurred while loading resource json " + id.toString() + e.getMessage());
-                }
 
-            }
         }
     };
 
 
 
     public ThighHighs(){
+
+        TrinketsApi.registerTrinketPredicate(resource("is_sock"), (stacl, ref, entity) -> {
+            return TriState.of(stacl.getItem() instanceof SockItem && ref.inventory().getSlotType().getName().contains("socks"));
+        });
+
         registerAddTags(TEST_SOCK, Registries.ITEM, resource("test_socks"), socks);
 
 
@@ -154,6 +182,7 @@ public class ThighHighs implements ModInitializer {
 
     @Override
     public void onInitialize() {
+
 //        System.out.println("Doing stuff!");
 
         //socks directory:
