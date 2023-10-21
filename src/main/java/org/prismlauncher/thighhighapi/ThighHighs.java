@@ -25,7 +25,7 @@ public class ThighHighs implements ModInitializer {
 
 
 
-    public static String modid = "thighhighapi";
+    public static String modid = "thighhigh";
 
     public static Logger MOD_LOGGER = LogUtils.getLogger();
     public static Logger LOGGER = LogUtils.getLogger();
