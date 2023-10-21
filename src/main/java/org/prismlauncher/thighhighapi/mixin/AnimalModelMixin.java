@@ -27,8 +27,10 @@ public abstract class AnimalModelMixin {
                 && ThighHighsClient.currentlyRenderingEntity instanceof PlayerEntity player
                 && instance instanceof ArmorEntityModel<T> model
                 && Trinkets.isPlayerWearingSocks(player)){
+            //return an immutable list of all the body parts without the left and right legs
             return ImmutableList.of(model.body, model.rightArm, model.leftArm, model.hat);
         }
+        //return the normal case
         return this.getBodyParts();
     }
 }
