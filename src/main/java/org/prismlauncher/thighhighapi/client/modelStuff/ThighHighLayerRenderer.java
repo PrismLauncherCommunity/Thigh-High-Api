@@ -1,10 +1,10 @@
-package net.gamma02.thighhigh.client.modelStuff;
+package org.prismlauncher.thighhighapi.client.modelStuff;
 
 import com.google.common.collect.Maps;
 import dev.emi.trinkets.api.TrinketComponent;
 import dev.emi.trinkets.api.TrinketsApi;
-import net.gamma02.thighhigh.Items.SockItem;
-import net.gamma02.thighhigh.ThighHighs;
+import org.prismlauncher.thighhighapi.Items.SockItem;
+import org.prismlauncher.thighhighapi.ThighHighs;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;

@@ -1,8 +1,8 @@
-package net.gamma02.thighhigh.mixin;
+package org.prismlauncher.thighhighapi.mixin;
 
-import net.gamma02.thighhigh.client.ThighHighsClient;
-import net.gamma02.thighhigh.client.modelStuff.ThighHighLayerRenderer;
-import net.gamma02.thighhigh.client.modelStuff.sock_layer;
+import org.prismlauncher.thighhighapi.client.ThighHighsClient;
+import org.prismlauncher.thighhighapi.client.modelStuff.ThighHighLayerRenderer;
+import org.prismlauncher.thighhighapi.client.modelStuff.sock_layer;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.LivingEntityRenderer;

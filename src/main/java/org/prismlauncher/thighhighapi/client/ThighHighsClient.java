@@ -1,8 +1,8 @@
-package net.gamma02.thighhigh.client;
+package org.prismlauncher.thighhighapi.client;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
-import net.gamma02.thighhigh.client.modelStuff.sock_layer;
+import org.prismlauncher.thighhighapi.client.modelStuff.sock_layer;
 import net.minecraft.client.model.TexturedModelData;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.util.Identifier;
@@ -38,6 +38,6 @@ public class ThighHighsClient implements ClientModInitializer {
         }
     }
     private static EntityModelLayer create(String id, String layer) {
-        return new EntityModelLayer(new Identifier("thighhigh", id), layer);
+        return new EntityModelLayer(new Identifier("thighhighapi", id), layer);
     }
 }

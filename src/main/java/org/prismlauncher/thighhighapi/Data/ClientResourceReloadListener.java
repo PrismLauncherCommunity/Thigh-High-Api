@@ -1,8 +1,8 @@
-package net.gamma02.thighhigh.Data;
+package org.prismlauncher.thighhighapi.Data;
 
 import com.mojang.logging.LogUtils;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
-import net.gamma02.thighhigh.ThighHighs;
+import org.prismlauncher.thighhighapi.ThighHighs;
 import net.minecraft.registry.Registries;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;

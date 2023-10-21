@@ -24,7 +24,7 @@ repositories {
 }
 
 loom {
-    accessWidenerPath = file("src/main/resources/thighhighs.accesswidener")
+    accessWidenerPath = file("src/main/resources/thighhigh.accesswidener")
 }
 
 dependencies {
