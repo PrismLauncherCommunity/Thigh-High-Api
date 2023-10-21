@@ -24,7 +24,7 @@ public abstract class PlayerEntityRendererMixin extends LivingEntityRenderer<Abs
     //This registers our custom entity layer renderer into the player class
     @Inject(method = "<init>", at = @At("RETURN"))
     public void layerAdderMixin(EntityRendererFactory.Context ctx, boolean slim, CallbackInfo ci){
-        this.addFeature(new ThighHighLayerRenderer<>(this, new sock_layer<>(ctx.getPart(slim ? ThighHighsClient.SOCKS_LAYER_SLIM : ThighHighsClient.SOCKS_LAYER_NORMAL))));
+        this.addFeature(new ThighHighLayerRenderer<>(this, new sock_layer<>(ctx.getPart(ThighHighsClient.SOCKS_LAYER_NORMAL))));
     }
 
 }

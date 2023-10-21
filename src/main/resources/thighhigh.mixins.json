@@ -4,10 +4,10 @@
   "package": "org.prismlauncher.thighhighapi.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "BeforeFreezeDataReloader",
-    "PlayerEntityMixin"
+    "BeforeFreezeDataReloader"
   ],
   "client": [
+    "AnimalModelMixin",
     "ArmorFeatureRendererMixin",
     "PlayerEntityRendererMixin"
   ],
