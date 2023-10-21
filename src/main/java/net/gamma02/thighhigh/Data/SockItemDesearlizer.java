@@ -1,6 +1,7 @@
-package net.gamma02.thighhigh.Items;
+package net.gamma02.thighhigh.Data;
 
 import com.google.gson.*;
+import net.gamma02.thighhigh.Items.SockItemType;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
@@ -15,14 +16,18 @@ public class SockItemDesearlizer implements JsonDeserializer<SockItemType> {
     public static SockItemDesearlizer INSTANCE = new SockItemDesearlizer();
     @Override
     public SockItemType deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+        //get the JsonObject from the element and store it for more consise code
         JsonObject sockItem = json.getAsJsonObject();
 
+        //get the name of the texture file
         String textureName = sockItem.get("texture_name").getAsString();
 
+        //get the identifier path of the item - it's registry name
         String itemName = sockItem.get("name").getAsString();
 
+        //See if there is an item properties JSON block
         if(sockItem.has("item_properties")) {
-            int maxCount = 1;//don't usually stack tools
+            int maxCount = 1;//don't usually stack armor but you do you ig
             int maxDamage = 1;
             @Nullable
             Item recipeRemainder = null;
@@ -32,6 +37,7 @@ public class SockItemDesearlizer implements JsonDeserializer<SockItemType> {
 
             JsonObject itemProperties = sockItem.getAsJsonObject("item_properties");
 
+            //Ensure each property exists and import them
             if(itemProperties.has("max_count")){
                 maxCount = itemProperties.get("max_count").getAsInt();
             }
@@ -51,21 +57,23 @@ public class SockItemDesearlizer implements JsonDeserializer<SockItemType> {
             if(itemProperties.has("fireproof")){
                 fireproof = itemProperties.get("fireproof").getAsBoolean();
             }
+
+            //build settings from the json
             Item.Settings itemSettings = new Item.Settings().rarity(rarity).maxCount(maxCount).maxDamage(maxDamage).recipeRemainder(recipeRemainder);
+            //set fireproof, there's no better way to do this lol
             if(fireproof){
                 itemSettings.fireproof();
             }
+
+            //create new sock item with settings
             return new SockItemType(itemSettings, textureName, itemName);
-
-
         }
 
-
-
-
-        return new SockItemType(new Item.Settings(), textureName, itemName);
+        // create new sock item with max count set to 1
+        return new SockItemType(new Item.Settings().maxCount(1), textureName, itemName);
     }
 
+    //turn a string that's either common, uncommon, rare, or epic into a rarity
     public Rarity getRarity(String rarity){
         return switch (rarity.toLowerCase(Locale.ROOT)) {
             case "common" -> Rarity.COMMON;
