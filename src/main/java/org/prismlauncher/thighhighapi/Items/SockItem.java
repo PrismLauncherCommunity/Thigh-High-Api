@@ -1,4 +1,4 @@
-package net.gamma02.thighhigh.Items;
+package org.prismlauncher.thighhighapi.Items;
 
 import dev.emi.trinkets.api.TrinketItem;
 

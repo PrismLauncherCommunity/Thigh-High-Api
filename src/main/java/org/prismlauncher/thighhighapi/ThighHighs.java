@@ -1,4 +1,4 @@
-package net.gamma02.thighhigh;
+package org.prismlauncher.thighhighapi;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -6,17 +6,17 @@ import com.mojang.logging.LogUtils;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
-import net.gamma02.thighhigh.Compat.Trinkets;
-import net.gamma02.thighhigh.Data.ClientResourceReloadListener;
-import net.gamma02.thighhigh.Data.ServerResourceReloadListener;
-import net.gamma02.thighhigh.Data.SockItemDesearlizer;
-import net.gamma02.thighhigh.Items.SockItemType;
+import org.prismlauncher.thighhighapi.Compat.Trinkets;
+import org.prismlauncher.thighhighapi.Data.ClientResourceReloadListener;
+import org.prismlauncher.thighhighapi.Data.ServerResourceReloadListener;
+import org.prismlauncher.thighhighapi.Data.SockItemDesearlizer;
+import org.prismlauncher.thighhighapi.Items.SockItemType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import org.slf4j.Logger;
-import net.gamma02.thighhigh.mixin.BeforeFreezeDataReloader;
+import org.prismlauncher.thighhighapi.mixin.BeforeFreezeDataReloader;
 
 import java.util.ArrayDeque;
 import java.util.HashMap;
@@ -25,7 +25,7 @@ public class ThighHighs implements ModInitializer {
 
 
 
-    public static String modid = "thighhigh";
+    public static String modid = "thighhighapi";
 
     public static Logger MOD_LOGGER = LogUtils.getLogger();
     public static Logger LOGGER = LogUtils.getLogger();

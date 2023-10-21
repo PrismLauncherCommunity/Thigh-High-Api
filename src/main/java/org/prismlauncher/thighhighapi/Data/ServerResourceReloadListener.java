@@ -1,9 +1,9 @@
-package net.gamma02.thighhigh.Data;
+package org.prismlauncher.thighhighapi.Data;
 
 import com.mojang.logging.LogUtils;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
-import net.gamma02.thighhigh.Items.SockItemType;
-import net.gamma02.thighhigh.ThighHighs;
+import org.prismlauncher.thighhighapi.Items.SockItemType;
+import org.prismlauncher.thighhighapi.ThighHighs;
 import net.minecraft.registry.Registries;
 import net.minecraft.resource.Resource;
 import net.minecraft.resource.ResourceManager;
@@ -15,7 +15,7 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.Map;
 
-import static net.gamma02.thighhigh.ThighHighs.SockItemsToRegister;
+import static org.prismlauncher.thighhighapi.ThighHighs.SockItemsToRegister;
 
 
 public class ServerResourceReloadListener implements SimpleSynchronousResourceReloadListener {

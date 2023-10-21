@@ -1,6 +1,6 @@
-package net.gamma02.thighhigh.Items;
+package org.prismlauncher.thighhighapi.Items;
 
-import net.gamma02.thighhigh.ThighHighs;
+import org.prismlauncher.thighhighapi.ThighHighs;
 import net.minecraft.util.Identifier;
 
 public class SockItemType extends SockItem {
@@ -12,8 +12,8 @@ public class SockItemType extends SockItem {
      * @param settings item settings
      * @param textureName name of texture
      * @param name registry name of item
-     * @see net.gamma02.thighhigh.Data.SockItemDesearlizer
-     * @see net.gamma02.thighhigh.Data.ServerResourceReloadListener
+     * @see org.prismlauncher.thighhighapi.Data.SockItemDesearlizer
+     * @see org.prismlauncher.thighhighapi.Data.ServerResourceReloadListener
      */
     public SockItemType(Settings settings, String textureName, String name) {
         super(settings, textureName);

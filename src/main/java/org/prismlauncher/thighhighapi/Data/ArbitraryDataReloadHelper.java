@@ -1,10 +1,10 @@
-package net.gamma02.thighhigh.Data;
+package org.prismlauncher.thighhighapi.Data;
 
 import com.google.common.collect.Sets;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Dynamic;
 import net.fabricmc.fabric.impl.resource.loader.ModResourcePackCreator;
-import net.gamma02.thighhigh.ThighHighs;
+import org.prismlauncher.thighhighapi.ThighHighs;
 import net.minecraft.resource.*;
 import net.minecraft.resource.featuretoggle.FeatureFlags;
 import net.minecraft.resource.featuretoggle.FeatureSet;
@@ -20,7 +20,7 @@ import static net.fabricmc.loader.impl.game.minecraft.Hooks.VANILLA;
 
 /**
  * This exists mostly to take weird vanilla/modded code out of {@link ThighHighs}
- * @see net.gamma02.thighhigh.mixin.BeforeFreezeDataReloader
+ * @see org.prismlauncher.thighhighapi.mixin.BeforeFreezeDataReloader
  */
 public class ArbitraryDataReloadHelper {
 

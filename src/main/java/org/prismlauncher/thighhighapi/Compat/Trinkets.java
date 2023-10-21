@@ -1,10 +1,10 @@
-package net.gamma02.thighhigh.Compat;
+package org.prismlauncher.thighhighapi.Compat;
 
 import dev.emi.trinkets.api.TrinketsApi;
 import net.fabricmc.fabric.api.util.TriState;
-import net.gamma02.thighhigh.Items.SockItem;
+import org.prismlauncher.thighhighapi.Items.SockItem;
 
-import static net.gamma02.thighhigh.ThighHighs.resource;
+import static org.prismlauncher.thighhighapi.ThighHighs.resource;
 
 public class Trinkets {
 

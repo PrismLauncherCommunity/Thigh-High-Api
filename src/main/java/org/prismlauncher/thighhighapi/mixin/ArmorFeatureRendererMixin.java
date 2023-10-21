@@ -1,9 +1,9 @@
-package net.gamma02.thighhigh.mixin;
+package org.prismlauncher.thighhighapi.mixin;
 
 
 import dev.emi.trinkets.api.TrinketComponent;
 import dev.emi.trinkets.api.TrinketsApi;
-import net.gamma02.thighhigh.Items.SockItem;
+import org.prismlauncher.thighhighapi.Items.SockItem;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.feature.ArmorFeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;

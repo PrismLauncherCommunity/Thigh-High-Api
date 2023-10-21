@@ -1,11 +1,11 @@
-package net.gamma02.thighhigh.mixin;
+package org.prismlauncher.thighhighapi.mixin;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Dynamic;
 import com.mojang.serialization.DynamicOps;
-import net.gamma02.thighhigh.Data.ArbitraryDataReloadHelper;
-import net.gamma02.thighhigh.ThighHighs;
+import org.prismlauncher.thighhighapi.Data.ArbitraryDataReloadHelper;
+import org.prismlauncher.thighhighapi.ThighHighs;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.List;
 
-import static net.gamma02.thighhigh.ThighHighs.MOD_LOGGER;
+import static org.prismlauncher.thighhighapi.ThighHighs.MOD_LOGGER;
 
 @Mixin(Items.class)
 public class BeforeFreezeDataReloader {

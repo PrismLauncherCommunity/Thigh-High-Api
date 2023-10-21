@@ -1,7 +1,7 @@
-package net.gamma02.thighhigh.Data;
+package org.prismlauncher.thighhighapi.Data;
 
 import com.google.gson.*;
-import net.gamma02.thighhigh.Items.SockItemType;
+import org.prismlauncher.thighhighapi.Items.SockItemType;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;

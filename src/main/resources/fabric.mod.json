@@ -2,22 +2,22 @@
   "schemaVersion": 1,
   "id": "thighhigh",
   "version": "${version}",
-  "name": "Thigh Highs",
-  "description": "",
-  "authors": [],
+  "name": "Thigh High API",
+  "description": "This is a mod that allows data-driven thigh high socks!",
+  "authors": ["Gamma_02", "ZekeZ"],
   "contact": {
-    "repo": "https://github.com/gammaposselt/Thigh Highs"
+    "repo": "https://github.com/PrismLauncherCommunity/Thigh-High-Socks"
   },
   "license": "MIT",
   "icon": "assets/thighhigh/icon.png",
-  "accessWidener": "thighhighs.accesswidener",
+  "accessWidener": "thighhigh.accesswidener",
   "environment": "*",
   "entrypoints": {
     "client": [
-      "net.gamma02.thighhigh.client.ThighHighsClient"
+      "org.prismlauncher.thighhighapi.client.ThighHighsClient"
     ],
     "main": [
-      "net.gamma02.thighhigh.ThighHighs"
+      "org.prismlauncher.thighhighapi.ThighHighs"
     ]
   },
   "mixins": [
