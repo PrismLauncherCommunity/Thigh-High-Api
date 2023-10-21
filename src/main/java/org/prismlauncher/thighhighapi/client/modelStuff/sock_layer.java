@@ -26,10 +26,10 @@ public class sock_layer<T extends LivingEntity> extends BipedEntityModel<T> {
 
 	//gets the textured model data for registering
 	public static TexturedModelData getModelData(float dilation) {
-		ModelData modelData = BipedEntityModel.getModelData(new Dilation(0.251f), 0.0f);
+		ModelData modelData = BipedEntityModel.getModelData(new Dilation(1f), 0.0f);
 		ModelPartData modelPartData = modelData.getRoot();
-		modelPartData.addChild(EntityModelPartNames.RIGHT_LEG, ModelPartBuilder.create().uv(12, 12).cuboid(-2.0f, 0.0f, -2.0f, 4.0f, 12f, 4.0f, new Dilation(0.251f)), ModelTransform.pivot(-1.9f, 12.0f, 0.0f));
-		modelPartData.addChild(EntityModelPartNames.LEFT_LEG, ModelPartBuilder.create().uv(0, 0).mirrored().cuboid(-2.0f, 0.0f, -2.0f, 4.0f, 12f, 4.0f, new Dilation(0.251f)), ModelTransform.pivot(1.9f, 12.0f, 0.0f));
+		modelPartData.addChild(EntityModelPartNames.RIGHT_LEG, ModelPartBuilder.create().uv(12, 12).cuboid(-2.0f, 0.0f, -2.0f, 4.0f, 12f, 4.0f, new Dilation(1f)), ModelTransform.pivot(-1.9f, 12.0f, 0.0f));
+		modelPartData.addChild(EntityModelPartNames.LEFT_LEG, ModelPartBuilder.create().uv(0, 0).mirrored().cuboid(-2.0f, 0.0f, -2.0f, 4.0f, 12f, 4.0f, new Dilation(1f)), ModelTransform.pivot(1.9f, 12.0f, 0.0f));
 		return TexturedModelData.of(modelData, 32, 32);
 	}
 
