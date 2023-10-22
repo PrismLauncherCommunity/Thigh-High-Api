@@ -16,16 +16,9 @@ public class sock_layer<T extends LivingEntity> extends BipedEntityModel<T> {
 		super(root);
 	}
 
-
-	public void copySockStateFrom(BipedEntityModel<T> model) {
-
-		this.sneaking = model.sneaking;
-		model.rightLeg.copyTransform(this.rightLeg);
-		model.leftLeg.copyTransform(this.leftLeg);
-	}
-
 	//gets the textured model data for registering
 	public static TexturedModelData getModelData(float dilation) {
+		dilation += 0.0125f;
 		ModelData modelData = BipedEntityModel.getModelData(new Dilation(dilation), 0.0f);
 		ModelPartData modelPartData = modelData.getRoot();
 		modelPartData.addChild(EntityModelPartNames.RIGHT_LEG, ModelPartBuilder.create().uv(12, 12).cuboid(-2.0f, 0.0f, -2.0f, 4.0f, 12f, 4.0f, new Dilation(dilation)), ModelTransform.pivot(-1.9f, 12.0f, 0.0f));
@@ -38,5 +31,7 @@ public class sock_layer<T extends LivingEntity> extends BipedEntityModel<T> {
 	public void render(MatrixStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
 		this.rightLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 		this.leftLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+
+
 	}
 }
