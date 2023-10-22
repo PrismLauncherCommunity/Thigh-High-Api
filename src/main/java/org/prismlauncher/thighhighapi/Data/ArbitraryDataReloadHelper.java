@@ -4,12 +4,12 @@ import com.google.common.collect.Sets;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Dynamic;
 import net.fabricmc.fabric.impl.resource.loader.ModResourcePackCreator;
-import org.prismlauncher.thighhighapi.ThighHighs;
 import net.minecraft.resource.*;
 import net.minecraft.resource.featuretoggle.FeatureFlags;
 import net.minecraft.resource.featuretoggle.FeatureSet;
 import net.minecraft.server.MinecraftServer;
 import org.jetbrains.annotations.NotNull;
+import org.prismlauncher.thighhighapi.ThighHighs;
 
 import java.nio.file.Path;
 import java.util.Collections;
@@ -97,11 +97,19 @@ public class ArbitraryDataReloadHelper {
         Path socksDataDir = Path.of("./resourcepacks");
         FileResourcePackProvider socksDataProvider = new FileResourcePackProvider(socksDataDir, resourceType, ResourcePackSource.SERVER);
 
+
         //load other mod's data packs
         @SuppressWarnings("UnstableApiUsage") var modDataPackCreator = new ModResourcePackCreator(resourceType);
+        var manager = new ResourcePackManager(modDataPackCreator, socksDataProvider);
+
+        manager.scanPacks();
+
+        if(!manager.getNames().contains("file/ThighHighAPIDefaultData.zip")){
+            ThighHighs.loadResourcePack = true;
+        }
 
         //add data packs to our data pack manager
-        return new ResourcePackManager(modDataPackCreator, socksDataProvider);
+        return manager;
     }
 
     public static String buildNbtString(List<String> strings){

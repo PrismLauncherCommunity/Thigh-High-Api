@@ -4,17 +4,16 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Dynamic;
 import com.mojang.serialization.DynamicOps;
-import org.prismlauncher.thighhighapi.Data.ArbitraryDataReloadHelper;
-import org.prismlauncher.thighhighapi.ThighHighs;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.StringNbtReader;
-import net.minecraft.registry.RegistryKey;
 import net.minecraft.resource.DataConfiguration;
 import net.minecraft.resource.LifecycledResourceManager;
 import net.minecraft.resource.ResourcePackManager;
+import org.prismlauncher.thighhighapi.Data.ArbitraryDataReloadHelper;
+import org.prismlauncher.thighhighapi.ThighHighs;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -28,8 +27,8 @@ import static org.prismlauncher.thighhighapi.ThighHighs.MOD_LOGGER;
 public class BeforeFreezeDataReloader {
 
     private static int counter = 0;
-    @Inject(method = "register(Lnet/minecraft/registry/RegistryKey;Lnet/minecraft/item/Item;)Lnet/minecraft/item/Item;", at = @At("HEAD"))
-    private static void reloadResourcePacksBeforeRegistryFreeze(RegistryKey<Item> key, Item item, CallbackInfoReturnable<Item> cir){
+    @Inject(method = "Lnet/minecraft/item/Items;register(Ljava/lang/String;Lnet/minecraft/item/Item;)Lnet/minecraft/item/Item;", at = @At("HEAD"))
+    private static void reloadResourcePacksBeforeRegistryFreeze(String id, Item item, CallbackInfoReturnable<Item> cir){
 
 
         counter+=1;
