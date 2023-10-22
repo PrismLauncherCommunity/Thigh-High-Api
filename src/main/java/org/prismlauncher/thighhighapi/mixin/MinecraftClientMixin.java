@@ -26,10 +26,10 @@ public abstract class MinecraftClientMixin {
         List<String> resourcePacks = options.resourcePacks;
         System.out.println();
 
-        if(!resourcePacks.contains("file/ThighHighAPIDefaultData.zip")){
-            resourcePacks.add("file/ThighHighAPIDefaultData.zip");
+        if(!resourcePacks.contains("file/thighhighapidefaultdata.zip")){
+            resourcePacks.add("file/thighhighapidefaultdata.zip");
             options.resourcePacks = resourcePacks;
-            MinecraftClient.getInstance().getResourcePackManager().enable("file/ThighHighAPIDefaultData.zip");
+            MinecraftClient.getInstance().getResourcePackManager().enable("file/thighhighapidefaultdata.zip");
             MinecraftClient.getInstance().reloadResources();
             options.write();
         }
