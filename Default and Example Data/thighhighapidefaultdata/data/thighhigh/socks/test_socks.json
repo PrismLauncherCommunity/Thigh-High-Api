@@ -1,0 +1,8 @@
+{
+  "texture_name": "socks",
+  "name": "test_socks",
+  "item_properties": {
+    "max_count": 1,
+    "rarity": "epic"
+  }
+}
