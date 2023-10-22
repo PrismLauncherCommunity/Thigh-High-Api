@@ -2,20 +2,21 @@ package org.prismlauncher.thighhighapi.Data;
 
 import com.mojang.logging.LogUtils;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
-import org.prismlauncher.thighhighapi.Items.SockItemType;
-import org.prismlauncher.thighhighapi.ThighHighs;
+import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.SimpleRegistry;
 import net.minecraft.resource.Resource;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
+import org.prismlauncher.thighhighapi.Compat.Trinkets;
+import org.prismlauncher.thighhighapi.Items.SockItemType;
+import org.prismlauncher.thighhighapi.ThighHighs;
 import org.slf4j.Logger;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.Map;
-
-import static org.prismlauncher.thighhighapi.ThighHighs.SockItemsToRegister;
 
 
 public class ServerResourceReloadListener implements SimpleSynchronousResourceReloadListener {
@@ -31,7 +32,7 @@ public class ServerResourceReloadListener implements SimpleSynchronousResourceRe
 //            System.out.println("Reloading on server!");
         //make sure registries are not frozen when we try to add items to a registration list
         try {
-            Registries.ITEM.createEntry(ThighHighs.TEST_SOCK);
+            ((SimpleRegistry<Item>)Registries.ITEM).assertNotFrozen();
         } catch (IllegalStateException e) {
             return;
         }
@@ -51,6 +52,8 @@ public class ServerResourceReloadListener implements SimpleSynchronousResourceRe
                 // Import the item from json
                 item = ThighHighs.ItemCreatingGSON.fromJson(new InputStreamReader(stream), SockItemType.class);
 
+//                var entry = Registries.ITEM.createEntry(item);
+
             } catch (Exception e) {
                 //Log error
                 System.out.println("Error occurred while loading resource json " + resource.toString() + e.getMessage());
@@ -60,7 +63,21 @@ public class ServerResourceReloadListener implements SimpleSynchronousResourceRe
             }
             LOGGER.info("Registering socks: " + item.name);
 
-            SockItemsToRegister.push(item);
+//            var sock = SockItemsToRegister.pop();
+
+            Identifier sockId = item.name;
+
+
+//            LOGGER.info(sockId.toString());
+
+            SockItemType registered = ThighHighs.register(item, Registries.ITEM, sockId);//SHOULD BE THIS
+//            SockItemType registered = Registry.register(Registries.ITEM, sockId, item)
+
+            ThighHighs.RegisteredSocks.put(sockId, registered);
+
+            Trinkets.registerSockTrinket(registered);
+
+
 
         }
 

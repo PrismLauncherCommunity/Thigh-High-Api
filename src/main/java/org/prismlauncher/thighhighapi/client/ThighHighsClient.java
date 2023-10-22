@@ -16,6 +16,9 @@ public class ThighHighsClient implements ClientModInitializer {
         //register our layer with Fabric's system
         EntityModelLayerRegistry.registerModelLayer(SOCKS_LAYER_NORMAL, () -> normal_socks_data);
 //        EntityModelLayerRegistry.registerModelLayer(SOCKS_LAYER_SLIM, () -> slim_socks_data);
+
+
+
     }
 
     public static boolean isRenderingPlayer = false;
