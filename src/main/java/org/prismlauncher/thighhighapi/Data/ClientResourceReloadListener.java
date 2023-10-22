@@ -41,11 +41,11 @@ public class ClientResourceReloadListener implements SimpleSynchronousResourceRe
             LOGGER.debug("Item registry frozen during reload of assets!");
         }
 
-        var resource = manager.getResource(resource("ThighHighAPIDefaultData.zip"));
+        var resource = manager.getResource(resource("thighhighapidefaultdata.zip"));
 
         if(resource.isPresent()){
             Resource defaultPack = resource.get();
-            Path resourcePackPath = Path.of("./resourcepacks/ThighHighAPIDefaultData.zip");
+            Path resourcePackPath = Path.of("./resourcepacks/thighhighapidefaultdata.zip");
 
             if(!Files.exists(resourcePackPath)){
                 try {

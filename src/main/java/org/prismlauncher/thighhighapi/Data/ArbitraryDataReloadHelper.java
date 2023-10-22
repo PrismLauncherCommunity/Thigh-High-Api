@@ -1,28 +1,139 @@
 package org.prismlauncher.thighhighapi.Data;
 
 import com.google.common.collect.Sets;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Dynamic;
+import com.mojang.serialization.DynamicOps;
 import net.fabricmc.fabric.impl.resource.loader.ModResourcePackCreator;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtOps;
+import net.minecraft.nbt.StringNbtReader;
 import net.minecraft.resource.*;
 import net.minecraft.resource.featuretoggle.FeatureFlags;
 import net.minecraft.resource.featuretoggle.FeatureSet;
 import net.minecraft.server.MinecraftServer;
 import org.jetbrains.annotations.NotNull;
 import org.prismlauncher.thighhighapi.ThighHighs;
+import org.spongepowered.asm.mixin.Unique;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.function.Consumer;
 
 import static net.fabricmc.loader.impl.game.minecraft.Hooks.VANILLA;
+import static org.prismlauncher.thighhighapi.ThighHighs.resource;
 
 /**
  * This exists mostly to take weird vanilla/modded code out of {@link ThighHighs}
  * @see org.prismlauncher.thighhighapi.mixin.BeforeFreezeDataReloader
  */
 public class ArbitraryDataReloadHelper {
+
+    public static void importCustomDatapacksAndLoad(){
+        ResourcePackManager initialResourcePackManager = ArbitraryDataReloadHelper.getResourcePackManager();
+
+
+        Consumer<LifecycledResourceManager> finishReload = finishReloadWithDefaultPack;
+        if(ThighHighs.loadResourcePack){
+            finishReload = finishReloadWithoutDefaultPack;
+        }
+
+
+        doReload(initialResourcePackManager, finishReload);
+
+    }
+
+
+    @Unique
+    private static Consumer<LifecycledResourceManager> finishReloadWithDefaultPack = new Consumer<LifecycledResourceManager>() {
+        @Override
+        public void accept(LifecycledResourceManager lifecycledResourceManager) {
+            ThighHighs.SEVER_DATA_RELOAD.reload(lifecycledResourceManager);//lets go this is so dumb
+        }
+    };
+
+    @Unique
+    private static Consumer<LifecycledResourceManager> finishReloadWithoutDefaultPack = new Consumer<LifecycledResourceManager>() {
+        @Override
+        public void accept(LifecycledResourceManager manager) {
+
+
+        var resources = manager.getAllResources(resource("thighhighapidefaultdata.zip"));
+
+
+        for (var resource : resources){
+
+            Path resourcePackPath = Path.of("./resourcepacks/thighhighapidefaultdata.zip");
+
+            if (!Files.exists(resourcePackPath)) {
+                try {
+                    //                        Files.copy(defaultPack.getInputStream(), resourcePackPath);
+                    byte[] dataPackBytes = resource.getInputStream().readAllBytes();
+                    Files.write(resourcePackPath, dataPackBytes, StandardOpenOption.CREATE, StandardOpenOption.WRITE);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+        }
+
+
+            ResourcePackManager newResourceManager = ArbitraryDataReloadHelper.getResourcePackManager();
+
+
+            doReload(newResourceManager, finishReloadWithDefaultPack);
+
+
+
+
+        }
+    };
+
+
+    @Unique
+    private static void doReload(ResourcePackManager resourcePackManager, Consumer<LifecycledResourceManager> finishReload) {
+
+
+        try {
+            //make the manager find all of the existing ResourcePacks
+            resourcePackManager.scanPacks();
+
+            //grab a list of the resource pack names
+            List<String> resourcePackNames = resourcePackManager.getNames().stream().toList();
+
+            //build a NBT-string list of the resource pack names
+            String names = ArbitraryDataReloadHelper.buildNbtString(resourcePackNames);
+            //build a Dynamic-readable list of datapack names
+            var nbtCompound2 = StringNbtReader.parse("{DataPacks:{Enabled:%s,Disabled:[]}}".formatted(names));
+
+
+            //look at this cursedness - I'm using an Object to trick the comipler into thinking NbtOps.INSTANCE is a subclass of DynamicOps<NbtCompound>
+            Object ops = NbtOps.INSTANCE;
+            //that said, it IS an instance of DynamicOps<NbtCompound>, so there's literally no reason this should error. If it does, this is the reason and god has forsaken us.
+            Dynamic<NbtCompound> dyn = new Dynamic<>((DynamicOps<NbtCompound>)ops, nbtCompound2);
+
+            //This was stolen from Mojang code - don't blame for how weird it is. Stolen from SaveLoading#DataPacks, taken into ArbitraryDataReloader to take those methods out of ThighHighs
+            ArbitraryDataReloadHelper.DataPacks dataPacks = new ArbitraryDataReloadHelper.DataPacks(resourcePackManager, ArbitraryDataReloadHelper.parseDataPackSettings(dyn), false, false);
+
+            //yeah don't forget to actually load the datapacks...
+            Pair<DataConfiguration, LifecycledResourceManager> result = dataPacks.load();//whops gotta have that lmao
+
+            //run the supplier
+            finishReload.accept(result.getSecond());
+
+
+            ThighHighs.reloadServerDataAgain = false;
+
+        } catch (CommandSyntaxException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     //Mojang code - SaveLoader.DataPacks
     public record DataPacks(ResourcePackManager manager, DataConfiguration initialDataConfig, boolean safeMode, boolean initMode) {
@@ -104,7 +215,7 @@ public class ArbitraryDataReloadHelper {
 
         manager.scanPacks();
 
-        if(!manager.getNames().contains("file/ThighHighAPIDefaultData.zip")){
+        if(!manager.getNames().contains("file/thighhighapidefaultdata.zip")){
             ThighHighs.loadResourcePack = true;
         }
 
