@@ -1,0 +1,10 @@
+Hello!
+just a note on the socks textures,
+they do have to be the name defined in your socks' defining .json file,
+    but don't put the .png in there, it confuses minecraft
+
+ALSO! don't forget to enable the resource pack!
+
+Thanks for using my mod!
+Hope your enjoying it!
+ - Gamma_02
