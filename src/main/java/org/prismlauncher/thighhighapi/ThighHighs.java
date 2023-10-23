@@ -4,8 +4,12 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mojang.logging.LogUtils;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.prismlauncher.thighhighapi.Compat.Trinkets;
 import org.prismlauncher.thighhighapi.Data.ClientResourceReloadListener;
@@ -45,6 +49,14 @@ public class ThighHighs implements ModInitializer {
      * @see ServerResourceReloadListener
      */
     public static ArrayDeque<SockItemType> SockItemsToRegister = new ArrayDeque<>();
+
+    public static ItemGroup sockGroup = FabricItemGroup.builder().displayName(Text.translatable("thighhigh.sockgroup"))
+            .icon(() -> Registries.ITEM.get(resource("test_socks")).getDefaultStack())
+            .entries((displayContext, entries) -> {
+                for(SockItemType type : ThighHighs.RegisteredSocks.values()){
+                    entries.add(type.getDefaultStack());
+                }
+            }).build();
 
     //this is the hash map we use to keep track of our registered socks!
     public static HashMap<Identifier, SockItemType> RegisteredSocks = new HashMap<>();
@@ -87,6 +99,9 @@ public class ThighHighs implements ModInitializer {
 
     @Override
     public void onInitialize() {
+
+        Registry.register(Registries.ITEM_GROUP, resource("sock_group"), sockGroup);
+
         //Register socks defined in JSON and add them to the socks trinket tag.
 //        while (!SockItemsToRegister.isEmpty()) {
 //            var sock = SockItemsToRegister.pop();
