@@ -1,8 +1,9 @@
 {
   "texture_name": "socks",
-  "name": "test_socks",
+  "name": "arbitrary_path:namespace",
   "item_properties": {
     "max_count": 1,
     "rarity": "epic"
-  }
+  },
+  "item_group": "path:namespace"
 }

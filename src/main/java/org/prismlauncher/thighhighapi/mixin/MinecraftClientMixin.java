@@ -1,5 +1,6 @@
 package org.prismlauncher.thighhighapi.mixin;
 
+import com.mojang.logging.LogUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.RunArgs;
 import net.minecraft.client.option.GameOptions;
@@ -24,9 +25,9 @@ public abstract class MinecraftClientMixin {
         GameOptions options = MinecraftClient.getInstance().options;
 
         List<String> resourcePacks = options.resourcePacks;
-        System.out.println();
 
         if(!resourcePacks.contains("file/thighhighapidefaultdata.zip")){
+            LogUtils.getLogger().info("Reloading packs!");
             resourcePacks.add("file/thighhighapidefaultdata.zip");
             options.resourcePacks = resourcePacks;
             MinecraftClient.getInstance().getResourcePackManager().enable("file/thighhighapidefaultdata.zip");

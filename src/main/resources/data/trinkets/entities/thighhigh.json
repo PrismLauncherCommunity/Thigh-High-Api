@@ -1,0 +1,15 @@
+{
+  "entities": [
+    "player",
+    "piglin",
+    "skeleton",
+    "zombie",
+    "husk",
+    "stray",
+    "drowned",
+    "giant"
+  ],
+  "slots": [
+    "feet/socks"
+  ]
+}
