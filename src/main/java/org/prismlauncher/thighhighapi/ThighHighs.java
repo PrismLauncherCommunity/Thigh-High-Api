@@ -4,8 +4,15 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mojang.logging.LogUtils;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.prismlauncher.thighhighapi.Compat.Trinkets;
 import org.prismlauncher.thighhighapi.Data.ClientResourceReloadListener;
@@ -15,7 +22,7 @@ import org.prismlauncher.thighhighapi.Items.SockItemType;
 import org.prismlauncher.thighhighapi.mixin.BeforeFreezeDataReloader;
 import org.slf4j.Logger;
 
-import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ThighHighs implements ModInitializer {
@@ -39,15 +46,18 @@ public class ThighHighs implements ModInitializer {
         return new Identifier(modid, path);
     }
 
-    /**
-     * This keeps track of the {@link SockItemType}s that we need to register.
-     * @see BeforeFreezeDataReloader
-     * @see ServerResourceReloadListener
-     */
-    public static ArrayDeque<SockItemType> SockItemsToRegister = new ArrayDeque<>();
+    public static ItemGroup sockGroup = FabricItemGroup.builder().displayName(Text.translatable("thighhigh.sockgroup"))
+            .icon(() -> Registries.ITEM.get(resource("test_socks")).getDefaultStack())
+            .entries((displayContext, entries) -> {
+                for(SockItemType type : ThighHighs.RegisteredSocks.values()){
+                    entries.add(type.getDefaultStack());
+                }
+            }).build();
 
     //this is the hash map we use to keep track of our registered socks!
     public static HashMap<Identifier, SockItemType> RegisteredSocks = new HashMap<>();
+
+
 
     public static boolean loadResourcePack = false;
 
@@ -87,6 +97,29 @@ public class ThighHighs implements ModInitializer {
 
     @Override
     public void onInitialize() {
+
+
+
+        Registry.register(Registries.ITEM_GROUP, resource("sock_group"), sockGroup);
+
+        HashMap<Identifier, ArrayList<SockItemType>> itemGroups = new HashMap<>();
+
+        for (var sock:
+             RegisteredSocks.values()) {
+            itemGroups.computeIfAbsent(sock.itemGroup, k -> new ArrayList<>());
+            itemGroups.get(sock.itemGroup).add(sock);
+
+        }
+
+        for(Identifier id : itemGroups.keySet()){
+            var itemList = itemGroups.get(id);
+            ItemGroupEvents.modifyEntriesEvent(RegistryKey.of(RegistryKeys.ITEM_GROUP, id)).register((content) ->{
+                for(var item : itemList){
+                    content.add(item.getDefaultStack());
+                }
+            });
+        }
+
         //Register socks defined in JSON and add them to the socks trinket tag.
 //        while (!SockItemsToRegister.isEmpty()) {
 //            var sock = SockItemsToRegister.pop();

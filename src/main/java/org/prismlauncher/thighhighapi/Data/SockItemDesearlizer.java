@@ -1,12 +1,14 @@
 package org.prismlauncher.thighhighapi.Data;
 
 import com.google.gson.*;
-import org.prismlauncher.thighhighapi.Items.SockItemType;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.prismlauncher.thighhighapi.Items.SockItemType;
+import org.prismlauncher.thighhighapi.ThighHighs;
 
 import java.lang.reflect.Type;
 import java.util.Locale;
@@ -24,9 +26,21 @@ public class SockItemDesearlizer implements JsonDeserializer<SockItemType> {
 
         //get the identifier path of the item - it's registry name
         String itemName = sockItem.get("name").getAsString();
+        Identifier itemID = null;
+
+        Identifier itemGroup = null;
+        if(sockItem.has("item_group")){
+            itemGroup = new Identifier(sockItem.get("item_group").getAsString());
+        }
+
+        if (itemName.contains(":")) {
+            itemID = new Identifier(itemName);
+        }else{
+            itemID = ThighHighs.resource(itemName);
+        }
 
         //See if there is an item properties JSON block
-        if(sockItem.has("item_properties")) {
+        if (sockItem.has("item_properties")) {
             int maxCount = 1;//don't usually stack armor but you do you ig
             int maxDamage = 1;
             @Nullable
@@ -38,40 +52,55 @@ public class SockItemDesearlizer implements JsonDeserializer<SockItemType> {
             JsonObject itemProperties = sockItem.getAsJsonObject("item_properties");
 
             //Ensure each property exists and import them
-            if(itemProperties.has("max_count")){
+            if (itemProperties.has("max_count")) {
                 maxCount = itemProperties.get("max_count").getAsInt();
             }
 
-            if(itemProperties.has("max_damage") && maxCount == 1){
+            if (itemProperties.has("max_damage") && maxCount == 1) {
                 maxDamage = itemProperties.get("max_damage").getAsInt();
             }
 
-            if(itemProperties.has("recipe_remainder")){
+            if (itemProperties.has("recipe_remainder")) {
                 recipeRemainder = Registries.ITEM.get(new Identifier(itemProperties.get("recipe_remainder").getAsString()));
             }
 
-            if(itemProperties.has("rarity")){
+            if (itemProperties.has("rarity")) {
                 rarity = getRarity(itemProperties.get("rarity").getAsString());
             }
 
-            if(itemProperties.has("fireproof")){
+            if (itemProperties.has("fireproof")) {
                 fireproof = itemProperties.get("fireproof").getAsBoolean();
             }
 
             //build settings from the json
             Item.Settings itemSettings = new Item.Settings().rarity(rarity).maxCount(maxCount).maxDamage(maxDamage).recipeRemainder(recipeRemainder);
             //set fireproof, there's no better way to do this lol
-            if(fireproof){
+            if (fireproof) {
                 itemSettings.fireproof();
             }
 
             //create new sock item with settings
-            return new SockItemType(itemSettings, textureName, itemName);
+            return checkForItemID(itemSettings, textureName, itemID, itemGroup);
         }
 
         // create new sock item with max count set to 1
-        return new SockItemType(new Item.Settings().maxCount(1), textureName, itemName);
+        return checkForItemID(textureName, itemID, itemGroup);
     }
+
+    private SockItemType checkForItemID(String textureName, @NotNull Identifier itemID, @Nullable Identifier itemGroup){
+        if (itemGroup == null)
+            return new SockItemType(new Item.Settings().maxCount(1), textureName, itemID);
+        else
+            return new SockItemType(new Item.Settings().maxCount(1), textureName, itemID, itemGroup);
+    }
+
+    private SockItemType checkForItemID(Item.Settings settings, String textureName, @NotNull Identifier itemID , @Nullable Identifier itemGroup) {
+        if (itemGroup == null)
+            return new SockItemType(settings, textureName, itemID);
+        else
+            return new SockItemType(settings, textureName, itemID, itemGroup);
+    }
+
 
     //turn a string that's either common, uncommon, rare, or epic into a rarity
     public Rarity getRarity(String rarity){
